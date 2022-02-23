@@ -268,12 +268,12 @@
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss z</maven.build.timestamp.format>
   </properties>
   <repositories>
-    <repository>
+    <!--<repository>
       <id>gcs-maven-central-mirror</id>
-      <!--
+      &lt;!&ndash;
         Google Mirror of Maven Central, placed first so that it's used instead of flaky Maven Central.
         See https://storage-download.googleapis.com/maven-central/index.html
-      -->
+      &ndash;&gt;
       <name>GCS Maven Central mirror</name>
       <url>https://maven-central.storage-download.googleapis.com/maven2/</url>
       <releases>
@@ -282,7 +282,7 @@
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
-    </repository>
+    </repository>-->
     <repository>
       <!--
         This is used as a fallback when the first try fails.
@@ -299,12 +299,12 @@
     </repository>
   </repositories>
   <pluginRepositories>
-    <pluginRepository>
+    <!--<pluginRepository>
       <id>gcs-maven-central-mirror</id>
-      <!--
+      &lt;!&ndash;
         Google Mirror of Maven Central, placed first so that it's used instead of flaky Maven Central.
         See https://storage-download.googleapis.com/maven-central/index.html
-      -->
+      &ndash;&gt;
       <name>GCS Maven Central mirror</name>
       <url>https://maven-central.storage-download.googleapis.com/maven2/</url>
       <releases>
@@ -313,7 +313,7 @@
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
-    </pluginRepository>
+    </pluginRepository>-->
     <pluginRepository>
       <id>central</id>
       <url>https://repo.maven.apache.org/maven2</url>
