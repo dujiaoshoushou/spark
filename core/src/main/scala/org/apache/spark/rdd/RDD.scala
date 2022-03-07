@@ -66,12 +66,15 @@ import org.apache.spark.util.random.{BernoulliCellSampler, BernoulliSampler, Poi
  *
  * Internally, each RDD is characterized by five main properties:
  *
- *  - A list of partitions
- *  - A function for computing each split
- *  - A list of dependencies on other RDDs
+ *  - A list of partitions 数据分片列表（partition）
+ *  - A function for computing each split  作用在每个数据分片的计算函数
+ *  - A list of dependencies on other RDDs 描述与其他RDD的依赖关系列表
  *  - Optionally, a Partitioner for key-value RDDs (e.g. to say that the RDD is hash-partitioned)
+ *  （可选）为key-value RDD配置的Partitioner(分片方法，如hash分片)
  *  - Optionally, a list of preferred locations to compute each split on (e.g. block locations for
  *    an HDFS file)
+ *    （可选）优先位置列表，根据数据的本地特性，指定了每个Partition分片的处理位置偏好（例如，对于HDFS文件来说，这个列表
+ *     就是每个文件块所在的节点）。
  *
  * All of the scheduling and execution in Spark is done based on these methods, allowing each RDD
  * to implement its own way of computing itself. Indeed, users can implement custom RDDs (e.g. for
