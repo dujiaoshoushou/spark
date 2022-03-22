@@ -52,8 +52,10 @@ private[spark] object RpcEnv {
       securityManager: SecurityManager,
       numUsableCores: Int,
       clientMode: Boolean): RpcEnv = {
+    // 设置RPC配置文件
     val config = RpcEnvConfig(conf, name, bindAddress, advertiseAddress, port, securityManager,
       numUsableCores, clientMode)
+    // 通过NettyRpcEnvFactory，创建NettyRpcEnv
     new NettyRpcEnvFactory().create(config)
   }
 }

@@ -203,6 +203,9 @@ class SparkContext(config: SparkConf) extends Logging {
   private var _eventLogDir: Option[URI] = None
   private var _eventLogCodec: Option[String] = None
   private var _listenerBus: LiveListenerBus = _
+  /**
+   * SpakrEnv这里是重点，要着重注意
+   */
   private var _env: SparkEnv = _
   private var _statusTracker: SparkStatusTracker = _
   private var _progressBar: Option[ConsoleProgressBar] = None

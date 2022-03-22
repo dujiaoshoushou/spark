@@ -676,7 +676,7 @@ private[spark] class DAGScheduler(
     val missing = new HashSet[Stage]
     val visited = new HashSet[RDD[_]]
     // We are manually maintaining a stack here to prevent StackOverflowError
-    // caused by recursively visiting
+    // caused by recursively visiting ListBuffer是一个栈存储结构
     val waitingForVisit = new ListBuffer[RDD[_]]
     waitingForVisit += stage.rdd
     def visit(rdd: RDD[_]): Unit = {
@@ -1301,7 +1301,7 @@ private[spark] class DAGScheduler(
       case _ =>
     }
 
-    // Figure out the indexes of partition ids to compute.
+    // Figure out the indexes of partition ids to compute.查找要计算的分区
     val partitionsToCompute: Seq[Int] = stage.findMissingPartitions()
 
     // Use the scheduling pool, job group, description, etc. from an ActiveJob associated

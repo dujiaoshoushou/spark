@@ -36,9 +36,15 @@ import org.apache.spark.rpc._
  *                       If 0, will consider the available CPUs on the host.
  */
 private[netty] class Dispatcher(nettyEnv: NettyRpcEnv, numUsableCores: Int) extends Logging {
-
+  /**
+   * 申请一个ConcurrentHashMap集合，保存MessageLoop对象，
+   * 通过[[Dispatcher]] 用于将消息传递到端点的消息循环
+   */
   private val endpoints: ConcurrentMap[String, MessageLoop] =
     new ConcurrentHashMap[String, MessageLoop]
+  /**
+   * 申请一个ConcurrentHashMap集合，保存RpcEndpoint对象和RpcEndpointRef对象的映射关系
+   */
   private val endpointRefs: ConcurrentMap[RpcEndpoint, RpcEndpointRef] =
     new ConcurrentHashMap[RpcEndpoint, RpcEndpointRef]
 
@@ -52,6 +58,15 @@ private[netty] class Dispatcher(nettyEnv: NettyRpcEnv, numUsableCores: Int) exte
   @GuardedBy("this")
   private var stopped = false
 
+  /**
+   * 注册RpcEndpoint
+   * 1. 获取连接地址。
+   * 2. 实例化endpointRef引用
+   * 3. 保存endpointRef对象到endpointRefs map集合中
+   * 4. 根据endpoint获取想对应的MessageLoop对象
+   * 5. 将获取的MessageLoop对象，添加到endpoints map集合中
+   * 6. 返回endpointRef对象
+   */
   def registerRpcEndpoint(name: String, endpoint: RpcEndpoint): NettyRpcEndpointRef = {
     val addr = RpcEndpointAddress(nettyEnv.address, name)
     val endpointRef = new NettyRpcEndpointRef(nettyEnv.conf, addr, nettyEnv)

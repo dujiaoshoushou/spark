@@ -115,6 +115,12 @@ private[netty] class NettyRpcEnv(
     }
   }
 
+  /**
+   * 1. 创建数据传输服务TransportServer
+   * 2. 注册数据转发服务Dispatcher
+   * @param bindAddress
+   * @param port
+   */
   def startServer(bindAddress: String, port: Int): Unit = {
     val bootstraps: java.util.List[TransportServerBootstrap] =
       if (securityManager.isAuthenticationEnabled()) {
@@ -122,7 +128,9 @@ private[netty] class NettyRpcEnv(
       } else {
         java.util.Collections.emptyList()
       }
+    // 创建数据传输服务TransportServer
     server = transportContext.createServer(bindAddress, port, bootstraps)
+    // 注册数据转发服务Dispatcher
     dispatcher.registerRpcEndpoint(
       RpcEndpointVerifier.NAME, new RpcEndpointVerifier(this, dispatcher))
   }
@@ -488,6 +496,10 @@ private[rpc] class NettyRpcEnvFactory extends RpcEnvFactory with Logging {
     // KryoSerializer in future, we have to use ThreadLocal to store SerializerInstance
     val javaSerializerInstance =
       new JavaSerializer(sparkConf).newInstance().asInstanceOf[JavaSerializerInstance]
+    /**
+     * 这里是重点，创建NettyRpcEnv，并调用其startServer方法，
+     *  创建传输服务TransportServer和Dispatcher方法
+     */
     val nettyEnv =
       new NettyRpcEnv(sparkConf, javaSerializerInstance, config.advertiseAddress,
         config.securityManager, config.numUsableCores)

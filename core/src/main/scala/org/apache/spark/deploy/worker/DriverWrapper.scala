@@ -57,7 +57,7 @@ object DriverWrapper extends Logging {
         Thread.currentThread.setContextClassLoader(loader)
         setupDependencies(loader, userJar)
 
-        // Delegate to supplied main class
+        // Delegate to supplied main class这里是调用我们自己写spark程序的main函数
         val clazz = Utils.classForName(mainClass)
         val mainMethod = clazz.getMethod("main", classOf[Array[String]])
         mainMethod.invoke(null, extraArgs.toArray[String])

@@ -122,7 +122,7 @@ private[spark] class StandaloneAppClient(
      * nthRetry means this is the nth attempt to register with master.
      */
     private def registerWithMaster(nthRetry: Int): Unit = {
-      registerMasterFutures.set(tryRegisterAllMasters())
+      registerMasterFutures.set(tryRegisterAllMasters()) // 这里才是真正想Master注册Application
       registrationRetryTimer.set(registrationRetryThread.schedule(new Runnable {
         override def run(): Unit = {
           if (registered.get) {

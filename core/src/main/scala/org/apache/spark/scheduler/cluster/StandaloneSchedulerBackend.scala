@@ -61,6 +61,9 @@ private[spark] class StandaloneSchedulerBackend(
   private val totalExpectedCores = maxCores.getOrElse(0)
   private val defaultProf = sc.resourceProfileManager.defaultResourceProfile
 
+  /**
+   * 这个函数是重点，实例化了Driver并启动Driver进程，同时注册了Application
+   */
   override def start(): Unit = {
     super.start()
 
